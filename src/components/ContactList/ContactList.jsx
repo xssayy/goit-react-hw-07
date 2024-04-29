@@ -2,22 +2,31 @@ import Contact from "../Contact/Contact";
 import style from "./ContactList.module.css";
 import { useSelector } from "react-redux";
 
+import {
+  selectVisibleContacts,
+  selectError,
+  selectIsLoading,
+} from "../../redux/selectors";
+
 const ContactList = () => {
-  const contacts = useSelector((state) => state.contacts.items);
-  const filter = useSelector((state) => state.filter.name);
-  const visibleContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const contacts = useSelector(selectVisibleContacts);
+  const loading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
   return (
-    <ul className={style.contactList}>
-      {visibleContacts.map((contact) => {
-        return (
-          <li key={contact.id} className={style.contact}>
-            <Contact contact={contact} key={contact.id} />
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      {loading && <p>Loading contacts...</p>}
+      {error && <p>Error</p>}
+      <ul className={style.contactList}>
+        {contacts.map((contact) => {
+          return (
+            <li key={contact.id} className={style.contact}>
+              <Contact contact={contact} key={contact.id} />
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 };
 
