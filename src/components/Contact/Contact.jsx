@@ -16,7 +16,6 @@ const Contact = ({ contact: { name, number, id } }) => {
       </p>
       <button
         onClick={() => {
-          console.log(id, name);
           dispatch(deleteContact(id));
         }}
       >
